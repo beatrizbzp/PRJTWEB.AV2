@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+    <html lang="pt-br"> 
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="forms.css">
+    <title>Cadastro</title>
+
+
+    
+    </script>
+</head>
+
+<body>
+   <div>
+        <h1 id="titulo">Cadastre-se na Selene Brechó</h1>
+        <p id="subtitulo">Complete suas informações</p><br>
+        <br>
+    </div> 
+    <header class="cabecalho2">
+        <nav class="cabecalho-inicio-menu2">
+            <a href="index.html"><img class="cabecalho-menu-img2" src="icones/Home.png" alt="icon home"></a>
+            <a href="contatos.html"><img class="cabecalho-menu-img2" src="icones/Internet.png" alt="icon social media"></a>
+
+   <form id="FormSel">
+    <fieldset class="grupo">
+        <div class="campo">
+            <label for="nome"><strong>Nome Completo</strong></label>
+            <input type="text" name="nome" id="nome" required>
+        </div>
+
+    </fieldset>
+    <div class="campo">
+        <label for="email"><strong>E-mail</strong></label>
+        <input type="email" name="email" id="email" required>
+    </div>
+
+    <div class="campo">
+        <label><strong>Com qual frequência você adquire peças de brechó?</strong></label>
+            <label>
+                <input type="radio" name="frequencia" id="frequencia" value="Sempre" checked>Sempre
+            </label>
+            <label>
+                <input type="radio" name="frequencia" id="frequencia" value="Geralmente">Geralmente
+            </label>
+            <label>
+                <input type="radio" name="frequencia" id="frequencia" value="Quase nunca">Quase nunca
+            </label>
+    </div>
+    <div class="campo">
+        <label for="consumo"><strong>Qual o seu maior consumo entre:</strong></label>
+        <select id="consumo">
+            <option select:disabled value="">Selecione</option>
+            <option>Calçados</option>
+            <option>Tops | Camisas</option>
+            <option>Moda Praia</option>
+            <option>Acessórios</option>
+        </select>
+    </div>
+    
+<br>
+<button class="botao"
+input type="submit" value="Concluir" onclick="listaCadastradosSel()">Concluído</button>
+   </form>
+
+<ul id="listaCadastradosSel"></ul>
+</body>
+<script>
+
+    function adicionarCadastroAoLocalStorage(cadastro) {
+        let listaCadastradosSel = JSON.parse(localStorage.getItem('cadastros')) || [];
+        listaCadastradosSel.push(cadastro);
+        localStorage.setItem('cadastros', JSON.stringify(listaCadastradosSel));
+    }
+    
+
+    function exibirlistaCadastradosSel() {
+        let listaCadastradosSel = JSON.parse(localStorage.getItem('cadastros')) || [];
+        let listaCadastradosSelHTML = document.getElementById('listaCadastradosSel');
+        listaCadastradosSelHTML.innerHTML = '';
+    
+        listaCadastradosSel.forEach(cadastro => {
+            let li = document.createElement('li');
+            li.textContent = `${cadastro.nome} - ${cadastro.email} - ${cadastro.frequencia} - ${cadastro.consumo}`;
+            listaCadastradosSelHTML.appendChild(li);
+        });
+    }
+    
+
+    document.getElementById('FormSel').addEventListener('submit', function(event) {
+        event.preventDefault();
+    
+
+        let nome = document.getElementById('nome').value;
+        let email = document.getElementById('email').value;
+        let frequencia = document.getElementById('frequencia').value;
+        let consumo = document.getElementById('consumo').value;
+
+    
+
+        let addCadastro = {
+            nome: nome,
+            email: email,
+            frequencia: frequencia,
+            consumo: consumo
+        };
+    
+
+        adicionarCadastroAoLocalStorage(addCadastro);
+        exibirlistaCadastradosSel();
+        document.getElementById('FormSel').reset();
+    });
+    
+
+    window.addEventListener('load', exibirlistaCadastradosSel);
+
+        function limparListaLocalStorage() {
+        localStorage.removeItem('cadastros');
+}
+
+    window.addEventListener('beforeunload', 
+        function(event) { limparListaLocalStorage();
+});
+
+    </script>
+</html>
